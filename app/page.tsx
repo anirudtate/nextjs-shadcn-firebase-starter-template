@@ -8,11 +8,11 @@ export default function Home() {
         Built with Next.js 15, Shadcn UI, and Firebase.
       </p>
       <div className="flex gap-4">
-        <Button className="px-8 py-6 text-lg" variant="default">
-          Sign up
+        <Button className="px-8 py-6 text-lg" variant="default" asChild>
+          <a href="/sign-up">Sign up</a>
         </Button>
-        <Button className="px-8 py-6 text-lg" variant="outline">
-          Login
+        <Button className="px-8 py-6 text-lg" variant="outline" asChild>
+          <a href="/login">Login</a>
         </Button>
       </div>
     </div>
