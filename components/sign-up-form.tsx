@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FirebaseError } from "firebase/app"
 import { Eye, EyeOff } from "lucide-react"
 import * as z from "zod"
+import Link from "next/link";
 
 const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -45,6 +46,8 @@ export function SignUpForm({
     resolver: zodResolver(signUpSchema),
     mode: "onBlur",
   })
+
+  const clearError = () => setError("")
 
   const getFirebaseErrorMessage = (error: FirebaseError) => {
     switch (error.code) {
@@ -150,7 +153,9 @@ export function SignUpForm({
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
-                    {...register("email")}
+                    {...register("email", {
+                      onChange: clearError
+                    })}
                     id="email"
                     type="email"
                     placeholder="Your email"
@@ -165,7 +170,9 @@ export function SignUpForm({
                   <Label htmlFor="password">Password</Label>
                   <div className="relative">
                     <Input
-                      {...register("password")}
+                      {...register("password", {
+                        onChange: clearError
+                      })}
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Your password"
@@ -204,9 +211,9 @@ export function SignUpForm({
               </div>
               <div className="text-center text-sm">
                 Already have an account?{" "}
-                <a href="/login" className="underline underline-offset-4 text-primary">
+                <Link href="/login" className="underline underline-offset-4 text-primary">
                   Login
-                </a>
+                </Link>
               </div>
             </div>
           </form>

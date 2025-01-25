@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FirebaseError } from "firebase/app"
 import * as z from "zod"
+import Link from "next/link";
 
 export const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -122,9 +123,9 @@ export function ForgotPasswordForm({
               </Button>
               <div className="text-center text-sm">
                 Remember your password?{" "}
-                <a href="/login" className="underline underline-offset-4 text-primary">
+                <Link href="/login" className="underline underline-offset-4 text-primary">
                   Back to login
-                </a>
+                </Link>
               </div>
             </div>
           </form>

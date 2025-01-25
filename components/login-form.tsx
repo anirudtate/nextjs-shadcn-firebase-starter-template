@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FirebaseError } from "firebase/app"
 import { Eye, EyeOff } from "lucide-react"
 import * as z from "zod"
+import Link from "next/link";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -46,10 +47,11 @@ export function LoginForm({
     mode: "onBlur",
   })
 
+  const clearError = () => setError("")
+
   const getFirebaseErrorMessage = (error: FirebaseError) => {
     switch (error.code) {
-      case "auth/user-not-found":
-      case "auth/wrong-password":
+      case "auth/invalid-credential":
         return "Invalid email or password"
       case "auth/too-many-requests":
         return "Too many failed attempts. Please try again later"
@@ -149,7 +151,9 @@ export function LoginForm({
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
-                    {...register("email")}
+                    {...register("email", {
+                      onChange: clearError
+                    })}
                     id="email"
                     type="email"
                     placeholder="Your email"
@@ -163,16 +167,18 @@ export function LoginForm({
                 <div className="grid gap-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
-                    <a
+                    <Link
                       href="/forgot-password"
                       className="text-sm underline-offset-4 hover:underline text-primary"
                     >
                       Forgot password?
-                    </a>
+                    </Link>
                   </div>
                   <div className="relative">
                     <Input
-                      {...register("password")}
+                      {...register("password", {
+                        onChange: clearError
+                      })}
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Your password"
@@ -211,9 +217,9 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="/sign-up" className="underline underline-offset-4 text-primary">
+                <Link href="/sign-up" className="underline underline-offset-4 text-primary">
                   Sign up
-                </a>
+                </Link>
               </div>
             </div>
           </form>
